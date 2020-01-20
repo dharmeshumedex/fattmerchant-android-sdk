@@ -1,5 +1,6 @@
 package omni.common.data.models
 
+import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
@@ -62,7 +63,7 @@ open class Transaction : Model {
 
     open var message: String? = null
 
-    open var meta: JsonObject? = null
+    @Polymorphic open var meta: JsonObject? = null
 
     open var method: String? = null
 

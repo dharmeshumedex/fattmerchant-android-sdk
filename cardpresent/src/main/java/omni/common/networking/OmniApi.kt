@@ -28,9 +28,11 @@ class OmniApi {
         }
     }
 
+    private val json = Json(JsonConfiguration(encodeDefaults = false, strictMode = false, useArrayPolymorphism = true))
+
     val httpClient = HttpClient {
         install(JsonFeature) {
-            serializer = KotlinxSerializer(Json.nonstrict).apply {
+            serializer = KotlinxSerializer(json).apply {
                 register(Transaction.serializer().list)
                 register(Invoice.serializer().list)
                 register(Customer.serializer().list)
@@ -64,7 +66,7 @@ class OmniApi {
      * @return the created invoice
      */
     suspend fun createInvoice(invoice: Invoice, error: (Error) -> Unit): Invoice? =
-        post("invoice", Json(JsonConfiguration.Stable).stringify(Invoice.serializer(), invoice), error)
+        post("invoice", json.stringify(Invoice.serializer(), invoice), error)
 
     /**
      * Updates an new invoice in Omni
@@ -73,7 +75,7 @@ class OmniApi {
      * @return the updated invoice
      */
     suspend fun updateInvoice(invoice: Invoice): Invoice? =
-        put("invoice/${invoice.id}", Json(JsonConfiguration.Stable).stringify(Invoice.serializer(), invoice))
+        put("invoice/${invoice.id}", json.stringify(Invoice.serializer(), invoice))
 
     /**
      * Creates a new customer in Omni
@@ -82,7 +84,7 @@ class OmniApi {
      * @return the created customer
      */
     suspend fun createCustomer(customer: Customer, error: (Error) -> Unit): Customer? =
-        post("customer", Json(JsonConfiguration.Stable).stringify(Customer.serializer(), customer), error)
+        post("customer", json.stringify(Customer.serializer(), customer), error)
 
     /**
      * Creates a transaction in Omni
@@ -91,7 +93,7 @@ class OmniApi {
      * @return the created transaction
      */
     suspend fun createTransaction(transaction: Transaction, error: (Error) -> Unit): Transaction? =
-        post("transaction", Json(JsonConfiguration.Stable).stringify(Transaction.serializer(), transaction), error)
+        post("transaction", json.stringify(Transaction.serializer(), transaction), error)
 
     /**
      * Gets a list of transactions from Omni
@@ -116,7 +118,7 @@ class OmniApi {
      * @return the created payment method
      */
     suspend fun createPaymentMethod(paymentMethod: PaymentMethod, error: (Error) -> Unit): PaymentMethod? =
-        post("payment-method", Json(JsonConfiguration.Stable).stringify(PaymentMethod.serializer(), paymentMethod), error)
+        post("payment-method", json.stringify(PaymentMethod.serializer(), paymentMethod), error)
 
     private suspend inline fun <reified T> post(urlString: String, body: String, error: (Error) -> Unit): T? =
         this.request<T>(

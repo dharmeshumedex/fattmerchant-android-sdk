@@ -43,9 +43,6 @@ open class PaymentMethod : Model {
     @SerialName("card_exp")
     open var cardExp: String? = null
 
-    @SerialName("card_exp_datetime")
-    open var cardExpDatetime: String? = null
-
     @SerialName("card_last_four")
     open var cardLastFour: String? = null
 
@@ -64,12 +61,6 @@ open class PaymentMethod : Model {
     @SerialName("has_cvv")
     open var hasCvv: Boolean? = null
 
-    @SerialName("is_default")
-    open var isDefault: Int? = null
-
-    @SerialName("is_usable_in_vt")
-    open var isUsableInVt: Boolean? = null
-
     @SerialName("merchant_id")
     open var merchantId: String? = null
 
@@ -79,12 +70,6 @@ open class PaymentMethod : Model {
 
     @SerialName("person_name")
     open var personName: String? = null
-
-    @SerialName("purged_at")
-    open var purgedAt: String? = null
-
-    @SerialName("spreedly_token")
-    open var spreedlyToken: String? = null
 
     open var tokenize: Boolean? = null
 
